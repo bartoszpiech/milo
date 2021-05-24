@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['mainwindow_12',['MainWindow',['../class_main_window.html',1,'']]],
-  ['mainwindow_2eh_13',['mainwindow.h',['../mainwindow_8h.html',1,'']]]
+  ['init_415',['init',['../class_viewer.html#a255cc2d6f55fc8565e614618d41589b1',1,'Viewer']]]
 ];

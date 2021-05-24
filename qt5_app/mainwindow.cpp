@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -107,6 +108,18 @@ void MainWindow::keyPressEvent(QKeyEvent *event) {
         send_msg_to_device("c2;");
     } else if (event->key() == Qt::Key_A) {
         send_msg_to_device("a0;");
+    } else if (event->key() == Qt::Key_Z) {
+		q0++;
+        add_log("q0 = " + QString::number(q0));
+    } else if (event->key() == Qt::Key_X) {
+		q1++;
+        add_log("q1 = " + QString::number(q1));
+    } else if (event->key() == Qt::Key_N) {
+		q2++;
+        add_log("q2 = " + QString::number(q2));
+    } else if (event->key() == Qt::Key_V) {
+		q3++;
+        add_log("q3 = " + QString::number(q3));
     } else if (event->key() == Qt::Key_H) {
         send_msg_to_device("a0;");
         this->servo_angle[0] = this->servo_angle[0] - keypress_diff;

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Wizualizacja manipulatora MiLo: viewer.h Source File</title>
+<title>Wizualizacja manipulatora &quot;MiLo&quot;: viewer.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,7 +21,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">Wizualizacja manipulatora MiLo
+   <div id="projectname">Wizualizacja manipulatora &quot;MiLo&quot;
    </div>
   </td>
  </tr>
@@ -65,19 +65,28 @@ $(function() {
 <div class="title">viewer.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef VIEWER_H</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#define VIEWER_H</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;QGLViewer/qglviewer.h&gt;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; </div>
-<div class="line"><a name="l00006"></a><span class="lineno"><a class="line" href="class_viewer.html">    6</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_viewer.html">Viewer</a> : <span class="keyword">public</span> QGLViewer</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;{</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    <a class="code" href="class_viewer.html">Viewer</a>();</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;};</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#endif </span><span class="comment">// VIEWER_H</span></div>
-<div class="ttc" id="aclass_viewer_html"><div class="ttname"><a href="class_viewer.html">Viewer</a></div><div class="ttdef"><b>Definition:</b> viewer.h:7</div></div>
+<a href="viewer_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160; </div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#ifndef VIEWER_H</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#define VIEWER_H</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;QGLViewer/qglviewer.h&gt;</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; </div>
+<div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="class_viewer.html">   15</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_viewer.html">Viewer</a> : <span class="keyword">public</span> QGLViewer</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;{</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <a class="code" href="class_viewer.html#ad9bcb555f66a790a392d2af4b4f7f1d6">Viewer</a>(QWidget* parent = <span class="keyword">nullptr</span>);</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="class_viewer.html#a9ce9d06343c4e089ac76b19f78fe29e4">draw</a>();</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="class_viewer.html#a255cc2d6f55fc8565e614618d41589b1">init</a>();</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="class_viewer.html#a7114e33ca0c224c2206b53dee77fe7fe">animate</a>();</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;};</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#endif </span><span class="comment">// VIEWER_H</span></div>
+<div class="ttc" id="aclass_viewer_html"><div class="ttname"><a href="class_viewer.html">Viewer</a></div><div class="ttdoc">Klasa Viewer, zawiera metody do rysowania w okienku VGLViewer przy użyciu OpenGL'a.</div><div class="ttdef"><b>Definition:</b> viewer.h:16</div></div>
+<div class="ttc" id="aclass_viewer_html_a255cc2d6f55fc8565e614618d41589b1"><div class="ttname"><a href="class_viewer.html#a255cc2d6f55fc8565e614618d41589b1">Viewer::init</a></div><div class="ttdeci">virtual void init()</div><div class="ttdoc">Metoda wirtualna inicjalizująca obiekt QGLViewer.</div><div class="ttdef"><b>Definition:</b> viewer.cpp:202</div></div>
+<div class="ttc" id="aclass_viewer_html_a7114e33ca0c224c2206b53dee77fe7fe"><div class="ttname"><a href="class_viewer.html#a7114e33ca0c224c2206b53dee77fe7fe">Viewer::animate</a></div><div class="ttdeci">virtual void animate()</div><div class="ttdoc">Metoda wirtualna odpowiedzialna za animację okienka.</div><div class="ttdef"><b>Definition:</b> viewer.cpp:224</div></div>
+<div class="ttc" id="aclass_viewer_html_a9ce9d06343c4e089ac76b19f78fe29e4"><div class="ttname"><a href="class_viewer.html#a9ce9d06343c4e089ac76b19f78fe29e4">Viewer::draw</a></div><div class="ttdeci">virtual void draw()</div><div class="ttdoc">Metoda wirtualna odpowiadająca za rysowanie obiektu.</div><div class="ttdef"><b>Definition:</b> viewer.cpp:140</div></div>
+<div class="ttc" id="aclass_viewer_html_ad9bcb555f66a790a392d2af4b4f7f1d6"><div class="ttname"><a href="class_viewer.html#ad9bcb555f66a790a392d2af4b4f7f1d6">Viewer::Viewer</a></div><div class="ttdeci">Viewer(QWidget *parent=nullptr)</div><div class="ttdoc">Konstruktor klasy Viewer.</div><div class="ttdef"><b>Definition:</b> viewer.cpp:8</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

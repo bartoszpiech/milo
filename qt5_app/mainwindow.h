@@ -12,12 +12,20 @@
 #include <QDateTime>
 #include <QKeyEvent>
 
+#include "viewer.h"
+
+/*!
+ * \brief Zmienne tymczasowo przechowujące informacje o kącie obrotu
+ * poszczególnych przegubów obrotowych
+ */
+extern float q0, q1, q2, q3;
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
 /*!
- * \brief Klasa MainWindow. Zawiera metody glownego okna.
+ * \brief Klasa MainWindow. Zawiera metody głównego okna.
  */
 class MainWindow : public QMainWindow
 {
@@ -29,52 +37,57 @@ public:
 //private slots:
 public slots:
     /*!
-     * \brief Metoda szukajaca urzadzen podlaczonych do komputera
+     * \brief Metoda szukająca urządzeń podłączonych do komputera
      */
     void on_pushButton_search_clicked();
     /*!
-     * \brief Metoda pozwalajaca podlaczyc urzadzenie do komputera po przycisnieciu przycisku
+     * \brief Metoda pozwalająca podłączyć urządzenie do komputera po
+	 * przyciśnięciu przycisku
      */
     void on_pushButton_connect_clicked();
     /*!
-     * \brief Metoda rozlaczajaca aktualnie podlaczone urzadzenie
+     * \brief Metoda rozłączajaca aktualnie połączone urządzenie
      */
     void on_pushButton_disconnect_clicked();
     /*!
-     * \brief Metoda pozwalajaca na odczyt danych z podlaczonego urzadzenia
+     * \brief Metoda pozwalająca na odczyt danych z połączonego urządzenia
      */
     void read_from_port();
     /*!
-     * \brief Metoda wysylajaca wiadomosc do urzadzenia poprzez interfejs UART
-     * \param wiadomosc, ktora ma byc wyslana do urzadzenia poprzez UART
+     * \brief Metoda wysyłająca wiadomość do urządzenia poprzez interfejs UART
+     * \param message - wiadomość, która ma być wysłana do urządzenia poprzez 
+	 * UART
      */
     void send_msg_to_device(QString message);
 //private:
 public:
     /*!
-     * \brief Uchwyt na glowne okno
+     * \brief Uchwyt na główne okno
      */
     Ui::MainWindow *ui;
     /*!
-     * \brief  Uchwyt na urzadzenie
+     * \brief  Uchwyt na urządzenie
      */
     QSerialPort *device;
     /*!
-     * \brief Metoda dodajaca logi w formacie R.M.D G:M:S <info>
+     * \brief Metoda dodająca logi w formacie R.M.D G:M:S <info>
+	 * \param message - wiadomość, która ma być zapisana do logu
      */
     void add_log(QString message);
     /*!
-     * \brief Kat obrotu serwomechanizmu
+     * \brief Zmienna przechowująca kąt obrotu serwomechanizmu
      */
     int servo_angle[3];
     /*!
-     * \brief Wartosc jaka ma byc dodana/odjeta od katu obrotu serwomechanizmu
-     *  podczas przycisniecia jednego z przyciskow (h,y) - pierwszy serwomechanizm,
-     *  (j,u) - drugi serwomechanizm, (k,i) trzeci serwomechanizm, (l,o) - czwarty serwomechanizm.
+     * \brief Wartość, jaka ma być dodana/odjęta od kątu obrotu serwomechanizmu
+     *  podczas przyciśnięcia jednego z przycisków (h,y) - pierwszy serwomechanizm,
+     *  (j,u) - drugi serwomechanizm, (k,i) trzeci serwomechanizm, (l,o) -
+	 *  czwarty serwomechanizm.
      */
     const int keypress_diff = 1;
     /*!
-     * \brief keyPressEvent - Metoda przechwytujaca nacisniecie przycisku na klawiaturze
+     * \brief keyPressEvent - Metoda przechwytująca naciśnięcie przycisku
+	 * na klawiaturze
      */
     void keyPressEvent(QKeyEvent *);
 };

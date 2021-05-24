@@ -15,25 +15,6 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="2" column="1">
-     <widget class="QPushButton" name="pushButton">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>80</width>
-        <height>30</height>
-       </size>
-      </property>
-      <property name="text">
-       <string>Close</string>
-      </property>
-     </widget>
-    </item>
     <item row="2" column="2">
      <spacer name="horizontalSpacer_2">
       <property name="orientation">
@@ -60,6 +41,25 @@
       </property>
      </spacer>
     </item>
+    <item row="2" column="1">
+     <widget class="QPushButton" name="pushButton">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>80</width>
+        <height>30</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>Close</string>
+      </property>
+     </widget>
+    </item>
     <item row="0" column="0" colspan="3">
      <widget class="QTabWidget" name="tabWidget">
       <property name="minimumSize">
@@ -69,9 +69,42 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>0</number>
       </property>
-      <widget class="QWidget" name="tab">
+      <widget class="QWidget" name="main_page">
+       <attribute name="title">
+        <string>Main Page</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <widget class="QTextEdit" name="textEdit">
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>80</height>
+           </size>
+          </property>
+          <property name="undoRedoEnabled">
+           <bool>false</bool>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+          <property name="html">
+           <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:36pt;&quot;&gt;&amp;quot;MiLo&amp;quot; robot arm visualisation&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="MainPageViewer" name="widget_2" native="true"/>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="configuration_page">
        <attribute name="title">
         <string>Configuration</string>
        </attribute>
@@ -135,18 +168,18 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="tab_3">
+      <widget class="QWidget" name="charts_page">
        <attribute name="title">
         <string>Charts</string>
        </attribute>
       </widget>
-      <widget class="QWidget" name="tab_2">
+      <widget class="QWidget" name="visualization_page">
        <attribute name="title">
         <string>Visualization</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_2">
         <item row="0" column="0">
-         <widget class="GLWidget" name="openGLWidget"/>
+         <widget class="Viewer" name="widget" native="true"/>
         </item>
        </layout>
       </widget>
@@ -163,7 +196,7 @@
      <x>0</x>
      <y>0</y>
      <width>1320</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuCommunication">
@@ -181,9 +214,16 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>GLWidget</class>
-   <extends>QOpenGLWidget</extends>
-   <header>glwidget.h</header>
+   <class>Viewer</class>
+   <extends>QWidget</extends>
+   <header location="global">viewer.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>MainPageViewer</class>
+   <extends>QWidget</extends>
+   <header location="global">viewer.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

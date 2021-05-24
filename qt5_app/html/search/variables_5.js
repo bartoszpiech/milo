@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['ui_48',['ui',['../class_main_window.html#a35466a70ed47252a0191168126a352a5',1,'MainWindow']]]
+  ['keypress_5fdiff_508',['keypress_diff',['../class_main_window.html#a3683ac5a1de56f98053f023c97c3ca67',1,'MainWindow']]]
 ];

@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['read_5ffrom_5fport_37',['read_from_port',['../class_main_window.html#a7bc09bac2df21f69810efe5eedc364ab',1,'MainWindow']]],
-  ['resizegl_38',['resizeGL',['../class_g_l_widget.html#a5e960cecb41f3937742f76a0a9103c88',1,'GLWidget']]]
+  ['read_5ffrom_5fport_488',['read_from_port',['../class_main_window.html#a7bc09bac2df21f69810efe5eedc364ab',1,'MainWindow']]],
+  ['retranslateui_489',['retranslateUi',['../class_ui___main_window.html#a097dd160c3534a204904cb374412c618',1,'Ui_MainWindow']]]
 ];

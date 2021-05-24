@@ -1,5 +1,7 @@
 var searchData=
 [
-  ['keypress_5fdiff_7',['keypress_diff',['../class_main_window.html#a3683ac5a1de56f98053f023c97c3ca67',1,'MainWindow']]],
-  ['keypressevent_8',['keyPressEvent',['../class_main_window.html#a6b8e934fca603cf7678eabb9a6dfc709',1,'MainWindow']]]
+  ['gridlayout_408',['gridLayout',['../class_ui___main_window.html#a525ed3c5fe0784ac502ee222fba4e205',1,'Ui_MainWindow']]],
+  ['gridlayout_5f2_409',['gridLayout_2',['../class_ui___main_window.html#a6b2a0c5f7e8ff2a87134908dd770d2d2',1,'Ui_MainWindow']]],
+  ['groupbox_410',['groupBox',['../class_ui___main_window.html#aef7cb3be8cecfc9aaf98f036a98781ce',1,'Ui_MainWindow']]],
+  ['groupbox_5f2_411',['groupBox_2',['../class_ui___main_window.html#abb28acde35ffce4d0e6152579df2cbc3',1,'Ui_MainWindow']]]
 ];
