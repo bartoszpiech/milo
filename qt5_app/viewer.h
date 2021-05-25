@@ -35,15 +35,18 @@ protected:
 	virtual void animate();
 };
 
-class MainPageViewer : public QGLViewer {
+class MainPageViewer : public Viewer {
+public:
     MainPageViewer(QWidget* parent = nullptr);
-    float q0 = 0, q1 = 0, q2 = 0, q3 = 0;
+
 
 protected:
     virtual void draw();
-    virtual void init();
+    //virtual void init();
     virtual void animate();
 
+private:
+    float q0 = 0, q1 = 0, q2 = 0, q3 = 0;
 };
 
 #endif // VIEWER_H

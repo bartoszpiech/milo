@@ -41,7 +41,9 @@ public:
     QPushButton *pushButton;
     QTabWidget *tabWidget;
     QWidget *main_page;
+    QVBoxLayout *verticalLayout_2;
     QTextEdit *textEdit;
+    MainPageViewer *widget_2;
     QWidget *configuration_page;
     QVBoxLayout *verticalLayout;
     QGroupBox *groupBox;
@@ -94,9 +96,21 @@ public:
         tabWidget->setMinimumSize(QSize(0, 0));
         main_page = new QWidget();
         main_page->setObjectName(QString::fromUtf8("main_page"));
+        verticalLayout_2 = new QVBoxLayout(main_page);
+        verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
         textEdit = new QTextEdit(main_page);
         textEdit->setObjectName(QString::fromUtf8("textEdit"));
-        textEdit->setGeometry(QRect(10, 10, 651, 71));
+        textEdit->setMaximumSize(QSize(16777215, 80));
+        textEdit->setUndoRedoEnabled(false);
+        textEdit->setReadOnly(true);
+
+        verticalLayout_2->addWidget(textEdit);
+
+        widget_2 = new MainPageViewer(main_page);
+        widget_2->setObjectName(QString::fromUtf8("widget_2"));
+
+        verticalLayout_2->addWidget(widget_2);
+
         tabWidget->addTab(main_page, QString());
         configuration_page = new QWidget();
         configuration_page->setObjectName(QString::fromUtf8("configuration_page"));
@@ -192,7 +206,7 @@ public:
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:36pt;\">&quot;MiLo&quot; robot arm visualisation</span></p></body></html>", nullptr));
+"<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:36pt;\">&quot;MiLo&quot; robot arm visualisation</span></p></body></html>", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(main_page), QCoreApplication::translate("MainWindow", "Main Page", nullptr));
         groupBox->setTitle(QCoreApplication::translate("MainWindow", "Connection", nullptr));
         pushButton_search->setText(QCoreApplication::translate("MainWindow", "Search", nullptr));

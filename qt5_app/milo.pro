@@ -1,4 +1,4 @@
-QT       += core gui serialport xml opengl
+QT       += core gui serialport xml opengl charts
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 

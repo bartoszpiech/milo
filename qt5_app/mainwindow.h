@@ -11,6 +11,7 @@
 #include <QDebug>
 #include <QDateTime>
 #include <QKeyEvent>
+#include <QtCharts>
 
 #include "viewer.h"
 

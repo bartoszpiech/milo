@@ -214,7 +214,7 @@ void Viewer::init() {
   camera()->setPosition(qglviewer::Vec(0,0,5));
   camera()->lookAt(qglviewer::Vec(0,0,0));
 
-  //setGridIsDrawn();
+  setGridIsDrawn();
 
   startAnimation();
 
@@ -225,7 +225,8 @@ void Viewer::init() {
 void Viewer::animate() {
 }
 
-MainPageViewer::MainPageViewer(QWidget* parent): QGLViewer(parent) {}
+
+MainPageViewer::MainPageViewer(QWidget* parent): Viewer(parent) {}
 void MainPageViewer::draw() {
     float link_0_x = 0.15, link_0_y = 0.15, link_0_z = 2.0;
     float link_1_x = 0.15, link_1_y = 0.15, link_1_z = 1.5;
@@ -249,21 +250,8 @@ void MainPageViewer::draw() {
     draw_link(link_2_x, link_2_y, link_2_z, 0.0, 0.0, 0.8);
 }
 
-void MainPageViewer::init() {
-
-  restoreStateFromFile();
-
-  GLfloat light[] = { 1.0, 1.0, 1.0, 0.0 };
-  glLightfv(GL_LIGHT0, GL_POSITION, light);
-
-  camera()->setPosition(qglviewer::Vec(0,0,5));
-  camera()->lookAt(qglviewer::Vec(0,0,0));
-  startAnimation();
-
-}
-
 void MainPageViewer::animate() {
-    this->q0++;
+    //this->q0++;
     this->q1++;
     this->q2++;
     this->q3++;
