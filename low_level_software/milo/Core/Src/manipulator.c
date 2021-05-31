@@ -32,18 +32,38 @@ manipulator_update(manipulator_t *m) {
 // forward kinematics
 void
 manipulator_solve_fk(manipulator_t *m) {
-	m->x = (m->len[0] * cos(m->q2) +
-			m->len[1] * cos(m->q2 + m->q3)) * cos(m->q1);
+	m->x = fabs((m->len[0] * cos(m->q2) +
+			m->len[1] * cos(m->q2 + m->q3)) * cos(m->q1));
 
-	m->y = m->len[0] * sin(m->q2) + m->len[1] * sin(m->q2 + m->q3);
+	m->y = fabs(m->len[0] * sin(m->q2) + m->len[1] * sin(m->q2 + m->q3));
 
 
-	m->z = (m->len[0] * cos(m->q2) +
-			m->len[1] * cos(m->q2 + m->q3)) * sin(m->q1);
+	m->z = fabs((m->len[0] * cos(m->q2) +
+			m->len[1] * cos(m->q2 + m->q3)) * sin(m->q1));
 }
 
 
 // inverse kinematics
+/*
+void
+manipulator_solve_ik(manipulator_t *m) {
+	m->q3 = acos(
+			(m->x * m->x + m->y * m->y + m->z * m->z -
+			(m->len[0] * m->len[0]) - (m->len[1] * m->len[1])) /
+			(2 * m->len[0] * m->len[1])) * 57.295779513;
+
+	m->q2 = asin(
+			(m->y * m->y - m->len[1] * m->len[1] * sin(m->q3) * sin(m->q3)) /
+			(m->len[0] * m->len[0] + m->len[1] * m->len[1] *
+			 cos(m->q3) * cos(m->q3) + 2 * m->len[0] * m->len[1] * cos(m->q3) -
+			 m->len[1] * m->len[1] * sin(m->q3) * sin(m->q3))) * 57.295779513;
+
+	m->q1 = acos(
+			 m->x /
+			(m->len[0] * cos(m->q2) + m->len[1] * cos(m->q2 + m->q3))) * 57.295779513;
+
+}
+*/
 void
 manipulator_solve_ik(manipulator_t *m) {
 	m->q3 = acos(
@@ -51,13 +71,24 @@ manipulator_solve_ik(manipulator_t *m) {
 			(m->len[0] * m->len[0]) - (m->len[1] * m->len[1])) /
 			(2 * m->len[0] * m->len[1]));
 
-	m->q2 = asin(
-			(m->y * m->y - m->len[1] * m->len[1] * sin(m->q3) * sin(m->q3)) /
-			(m->len[0] * m->len[0] + m->len[1] * m->len[1] *
-			 cos(m->q3) * cos(m->q3) + 2 * m->len[0] * m->len[1] * cos(m->q3) -
-			 m->len[1] * m->len[1] * sin(m->q3) * sin(m->q3)));
+	m->q2 = acos((4* m->len[1]* m->y *sqrt(-((m->len[0]*m->len[0] - 2 *m->len[0]* m->len[1] + m->len[1]*m->len[1] - m->x*m->x - m->y*m->y - m->z*m->z)*
+						(m->len[0]*m->len[0] + 2*m->len[0]* m->len[1] + m->len[1]*m->len[1] - m->x*m->x - m->y*m->y - m->z*m->z))/(m->len[0]*m->len[0] *m->len[1]*m->len[1])) +
+				sqrt(-(16 *m->y*m->y*(m->len[0]* - 2 *m->len[0]* m->len[1] + m->len[1]*m->len[1] - m->x*m->x - m->y*m->y - m->z*m->z)* (m->len[0]*m->len[0] + 2 *m->len[0]*
+							m->len[1] + m->len[1]*m->len[1] - m->x*m->x- m->y*m->y - m->z*m->z))/m->len[0]*m->len[0] - 4 *(4 *m->x*m->x + 4 *m->y*m->y
+							+ 4 *m->z*m->z) *(-(m->len[1]*m->len[1]*m->len[1]*m->len[1])/(m->len[0]*m->len[0]) + (2 *m->len[1]*m->len[1] *m->x*m->x)/(m->len[0]*m->len[0])
+								+ (2 *m->len[1]*m->len[1] *m->y*m->y)/(m->len[0]*m->len[0]) + (2* m->len[1]*m->len[1] *m->z*m->z)/
+								(m->len[0]*m->len[0]) - (m->x*m->x*m->x*m->x)/(m->len[0]*m->len[0]) - (2 *m->x*m->x *m->y*m->y)/
+								(m->len[0]*m->len[0]) - (2 *m->x*m->x *m->z*m->z)/(m->len[0]*m->len[0]) - (m->y*m->y*m->y*m->y)/
+								(m->len[0]*m->len[0]) - (2* m->y*m->y* m->z*m->z)/(m->len[0]*m->len[0]) - (m->z*m->z*m->z*m->z)/
+								(m->len[0]*m->len[0]) - (m->len[0]*m->len[0]) + 2 *m->len[1]*m->len[1] - (2* m->x*m->x) +
+								2* m->y*m->y - (2 *m->z*m->z)))/(2* (4 *m->x*m->x + 4 *m->y*m->y +
+								4* m->z*m->z))));
 
-	m->q3 = acos(
-			 x /
-			(m->len[0] * cos(m->q2) + m->len[1] * cos(m->q2 + m->q3);
+
+	m->q1 = atan(m->z / m->x);
+
+	//if (q3 == isna)
+	 m->q1 = fabs(m->q1) * 57.295779513;
+	 m->q2 = fabs(m->q2) * 57.295779513;
+	 m->q3 = fabs(m->q3) * 57.295779513;
 }

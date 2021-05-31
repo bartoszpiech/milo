@@ -172,12 +172,16 @@ int main(void)
 		 enc_val = 180;
 	 }
 	 */
+	  /*
 	 servo_angle[button]= enc_val;
 	 servo_set(&ft[0], servo_angle[0] * 10, 0);
 	 servo_set(&ft[1], servo_angle[1] * 10, 0);
 	 servo_set(&ft[2], servo_angle[2] * 10, 0);
+	 */
 	 //printf("servo[0]: %d; servo[1]: %d; servo[2]: %d; Przycisk: %d\r\n", servo_angle[0], servo_angle[1], servo_angle[2], button);
-	 HAL_Delay(10);
+	 manipulator_update(&milo);
+	 printf("q1 = %d, q2 = %d, q3 = %d, x = %d, y = %d, z = %d\r\n", (int)milo.q1, (int)milo.q2, (int)milo.q3, (int)milo.x, (int)milo.y, (int)milo.z);
+	  HAL_Delay(10);
   }
   /* USER CODE END 3 */
 }
@@ -281,22 +285,20 @@ HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
 			printf("s%c %d;\r\n", set_servo_number, set_servo_angle_int);
 		} else if (message == 'h') {
 			milo.x--;
-		}
 		} else if (message == 'y') {
 			milo.x++;
-		}
 		} else if (message == 'j') {
 			milo.y--;
-		}
 		} else if (message == 'u') {
 			milo.y++;
-		}
 		} else if (message == 'k') {
 			milo.z--;
-		}
 		} else if (message == 'i') {
 			milo.z++;
-		}
+		} else if (message == 'o') {
+			milo.x = 35;
+			milo.y = 35;
+			milo.z = 35;
 		} else {
 			printf("Niepoprawne dane\r\n");
 		}

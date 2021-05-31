@@ -9,12 +9,12 @@
 #define INC_MANIPULATOR_H_
 
 #include "servo.h"
-#include <stdio.h>
+#include <math.h>
 
 typedef struct {
-	float x, y, z;
-	float q1, q2, q3;
-	float len[2];
+	double x, y, z;
+	double q1, q2, q3;
+	double len[2];
 	servo_t ft[3];
 } manipulator_t;
 

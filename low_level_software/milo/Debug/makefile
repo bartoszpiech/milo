@@ -61,8 +61,8 @@ all: main-build
 main-build: milo.elf secondary-outputs
 
 # Tool invocations
-milo.elf: $(OBJS) $(USER_OBJS) /Users/barti/Documents/studies/milo/low_level_software/cube_project/milo/STM32F334R8TX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "milo.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"/Users/barti/Documents/studies/milo/low_level_software/cube_project/milo/STM32F334R8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="milo.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+milo.elf: $(OBJS) $(USER_OBJS) /Users/barti/Documents/studies/milo/low_level_software/milo/STM32F334R8TX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "milo.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"/Users/barti/Documents/studies/milo/low_level_software/milo/STM32F334R8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="milo.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
