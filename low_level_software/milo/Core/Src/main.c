@@ -131,13 +131,14 @@ int main(void)
   /* USER CODE BEGIN 2 */
 
   //HAL_TIM_Base_Start_IT(&htim6); // debug
+  HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
   HAL_TIM_PWM_Start(&htim15, TIM_CHANNEL_1);
   HAL_TIM_PWM_Start(&htim16, TIM_CHANNEL_1);
   HAL_TIM_PWM_Start(&htim17, TIM_CHANNEL_1);
   HAL_TIM_Encoder_Start(&htim2, TIM_CHANNEL_1);
   HAL_UART_Receive_IT(&huart2, &message, 1);
 
-  manipulator_init(&milo, 40.0, 30.0);
+  manipulator_init(&milo);
   /*
   servo_init(&(milo->ft[0], htim15, TIM_CHANNEL_1, 0, 0, 1800, 500, 2500);
   servo_init(&(milo->ft[1], htim16, TIM_CHANNEL_1, 0, 0, 1800, 500, 2500);
@@ -180,8 +181,11 @@ int main(void)
 	 */
 	 //printf("servo[0]: %d; servo[1]: %d; servo[2]: %d; Przycisk: %d\r\n", servo_angle[0], servo_angle[1], servo_angle[2], button);
 	 manipulator_update(&milo);
-	 printf("q1 = %d, q2 = %d, q3 = %d, x = %d, y = %d, z = %d\r\n", (int)milo.q1, (int)milo.q2, (int)milo.q3, (int)milo.x, (int)milo.y, (int)milo.z);
-	  HAL_Delay(10);
+	 //rintf("q1 = %d, q2 = %d, q3 = %d, x = %d, y = %d, z = %d\r\n", (int)(milo.q[0] * 180 / M_PI), (int)(milo.q[1] * 180 / M_PI), (int)(milo.q[2] * 180 / M_PI), (int)milo.effector.x, (int)milo.effector.y, (int)milo.effector.z);
+	 HAL_Delay(10);
+	 //servo_set(&milo.mg, 0, 0);
+	 //HAL_Delay(3000);
+	 //servo_set(&milo.mg, 1800, 0);
   }
   /* USER CODE END 3 */
 }
@@ -284,21 +288,21 @@ HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
 			}
 			printf("s%c %d;\r\n", set_servo_number, set_servo_angle_int);
 		} else if (message == 'h') {
-			milo.x--;
+			milo.effector.x--;
 		} else if (message == 'y') {
-			milo.x++;
+			milo.effector.x++;
 		} else if (message == 'j') {
-			milo.y--;
+			milo.effector.y--;
 		} else if (message == 'u') {
-			milo.y++;
+			milo.effector.y++;
 		} else if (message == 'k') {
-			milo.z--;
+			milo.effector.z--;
 		} else if (message == 'i') {
-			milo.z++;
+			milo.effector.z++;
 		} else if (message == 'o') {
-			milo.x = 35;
-			milo.y = 35;
-			milo.z = 35;
+			milo.effector.x = 49.0;
+			milo.effector.y = 29.0;
+			milo.effector.z = 0.0;
 		} else {
 			printf("Niepoprawne dane\r\n");
 		}

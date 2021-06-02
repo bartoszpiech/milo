@@ -24,7 +24,7 @@ typedef struct {
 	double total_len;
 	double error;
 
-	servo_t servo[3];
+	servo_t ft[3];
 } manipulator_t;
 
 void

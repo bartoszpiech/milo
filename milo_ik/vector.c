@@ -1,11 +1,3 @@
-/*
- * vector.c
- *
- *  Created on: 31 maj 2021
- *      Author: barti
- */
-
-
 #include "vector.h"
 
 void
@@ -24,7 +16,7 @@ vector_init_v(vector_t *v, vector_t src) {
 
 void
 vector_print(vector_t v) {
-	printf("[%d, %d, %d]", (int)v.x, (int)v.y, (int)v.z);
+	printf("[%lf, %lf, %lf]", v.x, v.y, v.z);
 }
 
 double

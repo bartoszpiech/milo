@@ -72,6 +72,7 @@ vector_normalize(vector_t *v) {
 
 typedef struct {
 	vector_t origin;
+	vector_t effector;
 	vector_t j1[2];
 	vector_t j2[2];
 	double len[2];
@@ -83,12 +84,12 @@ typedef struct {
 void
 manipulator_init(manipulator_t *m) {
 	vector_init_d(&m->origin, 0, 0, 0);
-	m->q[0] = 0;
-	m->q[1] = 0;
-	m->q[2] = 0;
-	m->len[0] = 40;
-	m->len[1] = 30;
-	m->error = 0.1;
+	m->q[0] = 0.0 * M_PI / 180;
+	m->q[1] = 45.0 * M_PI / 180;
+	m->q[2] = 45.0 * M_PI / 180;
+	m->len[0] = 40.0;
+	m->len[1] = 30.0;
+	m->error = 0.01;
 	m->total_len = m->len[0] + m->len[1];
 	vector_init_v(&m->j1[0], m->origin);
 	vector_init_d(&m->j1[1],
@@ -97,9 +98,10 @@ manipulator_init(manipulator_t *m) {
 				m->len[0] * cos(m->q[1]) * sin(m->q[0]));
 	vector_init_v(&m->j2[0], m->j1[1]);
 	vector_init_d(&m->j2[1],
-				(m->len[0] * cos(m->q[1]) + m->len[1] * cos(m->q[1] + m->q[2])) * cos(m->q[0]),
-				m->len[0] * sin(m->q[1]) + m->len[1] * sin(m->q[1] + m->q[2]),
-				(m->len[0] * cos(m->q[1]) + m->len[1] * cos(m->q[1] + m->q[2])) * sin(m->q[0]));
+				(m->len[0] * cos(m->q[1]) + m->len[1] * cos(m->q[1] - m->q[2])) * cos(m->q[0]),
+				m->len[0] * sin(m->q[1]) + m->len[1] * sin(m->q[1] - m->q[2]),
+				(m->len[0] * cos(m->q[1]) + m->len[1] * cos(m->q[1] - m->q[2])) * sin(m->q[0]));
+	vector_init_v(&m->effector, m->j2[1]);
 }
 
 void
@@ -108,7 +110,11 @@ manipulator_print(manipulator_t m) {
 	printf("q1 =\t%lfdeg\n", m.q[0] * 180 / M_PI);
 	printf("q2 =\t%lfdeg\n", m.q[1] * 180 / M_PI);
 	printf("q3 =\t%lfdeg\n", m.q[2] * 180 / M_PI);
-	printf("m.j1[0] =\t");
+	printf("\nm.origin =\t");
+	vector_print(m.origin);
+	printf("\nm.effector =\t");
+	vector_print(m.effector);
+	printf("\nm.j1[0] =\t");
 	vector_print(m.j1[0]);
 	printf("\nm.j1[1] =\t");
 	vector_print(m.j1[1]);
@@ -153,7 +159,7 @@ manipulator_backward(manipulator_t *m, int depth, double x, double y, double z) 
 void
 manipulator_forward(manipulator_t *m, int depth, double x, double y, double z) {
 	depth--;
-	//printf("forward\n");
+	printf("forward\n");
 	vector_init_v(&m->j1[0], m->origin);
 	vector_t tmp;
 	vector_sub(&tmp, m->j1[1], m->j1[0]);
@@ -173,7 +179,8 @@ manipulator_forward(manipulator_t *m, int depth, double x, double y, double z) {
 	// might do that forward has to be computed x times - TODO
 	vector_init_d(&tmp, x, y, z);
 	vector_sub(&tmp, tmp, m->j2[1]);
-	if (fabs(vector_mag(tmp)) > m->error || depth >= 0) {
+	//if (fabs(vector_mag(tmp)) > m->error || depth >= 0) {
+	if (fabs(vector_mag(tmp)) > m->error) {
 		manipulator_backward(m, depth, x, y, z);
 	}
 }
@@ -193,24 +200,30 @@ manipulator_calculate_angles(manipulator_t *m) {
 	// move our tmp vector to origin
 	vector_sub(&y_tmp, y_tmp, m->j2[0]);
 	m->q[0] = vector_angle(x_tmp, x_axis);
-	m->q[1] = vector_angle(m->j1[1], x_tmp);
-	m->q[2] = vector_angle(y_tmp, x_tmp) - m->q[1];
-	manipulator_print(*m);
+	m->q[1] = vector_angle(x_tmp, m->j1[1]);
+	m->q[2] = m->q[1] + vector_angle(x_tmp, y_tmp);
+	//manipulator_print(*m);
 }
-
-
 
 
 int
 main() {
 	manipulator_t milo;
 	manipulator_init(&milo);
-	//manipulator_print(milo);
+	manipulator_print(milo);
+	milo.effector.x = 20;
+	milo.effector.y = 29;
+
+	manipulator_backward(&milo, 5, milo.effector.x, milo.effector.y, milo.effector.z);
+	manipulator_calculate_angles(&milo);
+	manipulator_print(milo);
 	
-	for (int i = 0; i < 5; i++) {
-		manipulator_backward(&milo, 5, 30-i, 40, 0);
+	/*
+	for (int i = 0; i <= 30; i++) {
+		manipulator_backward(&milo, 5, milo.effector.x - i, milo.effector.y, milo.effector.z);
 		manipulator_calculate_angles(&milo);
-		//manipulator_print(milo);
+		manipulator_print(milo);
 	}
+	*/
 }
 

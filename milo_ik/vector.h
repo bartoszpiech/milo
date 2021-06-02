@@ -1,10 +1,3 @@
-/*
- * vector.h
- *
- *  Created on: 31 maj 2021
- *      Author: barti
- */
-
 #ifndef INC_VECTOR_H_
 #define INC_VECTOR_H_
 
@@ -46,4 +39,4 @@ vector_mult(vector_t *v, double num);
 void
 vector_normalize(vector_t *v);
 
-#endif /* INC_VECTOR_H_ */
+#endif

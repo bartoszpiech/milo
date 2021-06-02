@@ -16,7 +16,8 @@ C_SRCS += \
 ../Core/Src/sysmem.c \
 ../Core/Src/system_stm32f3xx.c \
 ../Core/Src/tim.c \
-../Core/Src/usart.c 
+../Core/Src/usart.c \
+../Core/Src/vector.c 
 
 OBJS += \
 ./Core/Src/dma.o \
@@ -30,7 +31,8 @@ OBJS += \
 ./Core/Src/sysmem.o \
 ./Core/Src/system_stm32f3xx.o \
 ./Core/Src/tim.o \
-./Core/Src/usart.o 
+./Core/Src/usart.o \
+./Core/Src/vector.o 
 
 C_DEPS += \
 ./Core/Src/dma.d \
@@ -44,7 +46,8 @@ C_DEPS += \
 ./Core/Src/sysmem.d \
 ./Core/Src/system_stm32f3xx.d \
 ./Core/Src/tim.d \
-./Core/Src/usart.d 
+./Core/Src/usart.d \
+./Core/Src/vector.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
@@ -72,4 +75,6 @@ Core/Src/tim.o: ../Core/Src/tim.c Core/Src/subdir.mk
 	arm-none-eabi-gcc "$<" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F334x8 -DDEBUG -c -I../Drivers/STM32F3xx_HAL_Driver/Inc -I../Drivers/CMSIS/Include -I../Core/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F3xx/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/tim.d" -MT"$@" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "$@"
 Core/Src/usart.o: ../Core/Src/usart.c Core/Src/subdir.mk
 	arm-none-eabi-gcc "$<" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F334x8 -DDEBUG -c -I../Drivers/STM32F3xx_HAL_Driver/Inc -I../Drivers/CMSIS/Include -I../Core/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F3xx/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/usart.d" -MT"$@" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "$@"
+Core/Src/vector.o: ../Core/Src/vector.c Core/Src/subdir.mk
+	arm-none-eabi-gcc "$<" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F334x8 -DDEBUG -c -I../Drivers/STM32F3xx_HAL_Driver/Inc -I../Drivers/CMSIS/Include -I../Core/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F3xx/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/vector.d" -MT"$@" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "$@"
 
