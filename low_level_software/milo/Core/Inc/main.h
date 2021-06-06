@@ -70,6 +70,7 @@ void Error_Handler(void);
 #define TIM6_PRINT_PERIOD 9999
 #define B1_Pin GPIO_PIN_13
 #define B1_GPIO_Port GPIOC
+#define B1_EXTI_IRQn EXTI15_10_IRQn
 #define RCC_OSC32_OUT_Pin GPIO_PIN_15
 #define RCC_OSC32_OUT_GPIO_Port GPIOC
 #define ENCODER_CH1_Pin GPIO_PIN_0

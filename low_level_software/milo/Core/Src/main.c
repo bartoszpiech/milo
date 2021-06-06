@@ -19,7 +19,6 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "dma.h"
 #include "tim.h"
 #include "usart.h"
 #include "gpio.h"
@@ -72,6 +71,7 @@ uint8_t set[5];
 int16_t enc_val;
 manipulator_t milo = { 0 };
 uint16_t servo_angle[3] = { 0 };
+uint8_t mode = 0;
 
 /* USER CODE END PV */
 
@@ -120,7 +120,6 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_DMA_Init();
   MX_USART2_UART_Init();
   MX_TIM2_Init();
   MX_TIM15_Init();
@@ -137,7 +136,6 @@ int main(void)
   HAL_TIM_PWM_Start(&htim17, TIM_CHANNEL_1);
   HAL_TIM_Encoder_Start(&htim2, TIM_CHANNEL_1);
   HAL_UART_Receive_IT(&huart2, &message, 1);
-
   manipulator_init(&milo);
   /*
   servo_init(&(milo->ft[0], htim15, TIM_CHANNEL_1, 0, 0, 1800, 500, 2500);
@@ -165,24 +163,32 @@ int main(void)
 	*/
 
 	 // sprawdzenie overflow
-	  /*
-	 enc_val = __HAL_TIM_GET_COUNTER(&htim2);
-	 if (enc_val < 0) {
-		 enc_val = 0;
-	 } else if (enc_val > 180) {
-		 enc_val = 180;
+	 if (mode == 0) {
+		 enc_val = __HAL_TIM_GET_COUNTER(&htim2);
+		 if (enc_val < 0) {
+			 enc_val = 0;
+		 } else if (enc_val > 180) {
+			 enc_val = 180;
+		 }
+		 milo.q[button] = enc_val;
+		 manipulator_fk(&milo);
+	 } else if (mode == 1) {
+		 manipulator_backward(&milo, 5, milo.effector.x, milo.effector.y, milo.effector.z);
+		 manipulator_calculate_angles(&milo);
+		 manipulator_update(&milo);
 	 }
-	 */
+
 	  /*
 	 servo_angle[button]= enc_val;
 	 servo_set(&ft[0], servo_angle[0] * 10, 0);
 	 servo_set(&ft[1], servo_angle[1] * 10, 0);
 	 servo_set(&ft[2], servo_angle[2] * 10, 0);
 	 */
-	 //printf("servo[0]: %d; servo[1]: %d; servo[2]: %d; Przycisk: %d\r\n", servo_angle[0], servo_angle[1], servo_angle[2], button);
-	 manipulator_update(&milo);
-	 //rintf("q1 = %d, q2 = %d, q3 = %d, x = %d, y = %d, z = %d\r\n", (int)(milo.q[0] * 180 / M_PI), (int)(milo.q[1] * 180 / M_PI), (int)(milo.q[2] * 180 / M_PI), (int)milo.effector.x, (int)milo.effector.y, (int)milo.effector.z);
-	 HAL_Delay(10);
+	 //printf("servo[0]: %d; servo[1]: %d; servo[2]: %d; Przycisk: %ld\r\n", servo_angle[0], servo_angle[1], servo_angle[2], button);
+
+	  //manipulator_update(&milo);
+	 printf("q1 = %d, q2 = %d, q3 = %d, x = %d, y = %d, z = %d\r\n", (int)(milo.q[0]), (int)(milo.q[1]), (int)(milo.q[2]), (int)milo.effector.x, (int)milo.effector.y, (int)milo.effector.z);
+	 HAL_Delay(100);
 	 //servo_set(&milo.mg, 0, 0);
 	 //HAL_Delay(3000);
 	 //servo_set(&milo.mg, 1800, 0);
@@ -234,8 +240,13 @@ void
 HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
 	if (GPIO_Pin == ENCODER_BUTTON_Pin) {
 		button++;
-		button = button % 3;
-		__HAL_TIM_SET_COUNTER(&htim2, servo_angle[button]);
+		button = button % 4;
+		__HAL_TIM_SET_COUNTER(&htim2, milo.q[button]);
+		printf("button: %ld\r\n", button);
+	} else if (GPIO_Pin == B1_Pin) {
+		mode++;
+		mode = mode % 2;
+		printf("mode: %d\r\n", mode);
 	}
 
 }
@@ -256,11 +267,11 @@ HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
 			uint8_t servo_number, semicolon;
 			HAL_UART_Receive(huart, &servo_number, 1, 10);
 			HAL_UART_Receive(huart, &semicolon, 1, 10);	// semicolon
-			printf("a%c %d;\r\n", servo_number, servo_angle[servo_number - '0']);
+			printf("a%c %d;\r\n", servo_number, (int)milo.q[servo_number - '0']);
 		} else if (message == 'd') {
 			uint8_t semicolon;
 			HAL_UART_Receive(huart, &semicolon, 1, 10);	// semicolon
-			printf("d;%d;%d;%d;\r\n", servo_angle[0], servo_angle[1], servo_angle[2]);
+			printf("d;%d;%d;%d;%d\r\n", (int)milo.q[0], (int)milo.q[1], (int)milo.q[2], (int)milo.q[3]);
 		} else if (message == 's') {
 			uint8_t set_servo_number, tmp, set_servo_angle_str[4];
 			uint8_t set_servo_angle_int;
@@ -282,7 +293,7 @@ HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
 				set_servo_angle_int = 0;
 				printf("zbyt maly kat\r\n");
 			}
-			servo_angle[set_servo_number - '0'] = set_servo_angle_int;
+			milo.q[set_servo_number - '0'] = set_servo_angle_int;
 			if (set_servo_number - '0' == button) {
 				__HAL_TIM_SET_COUNTER(&htim2, set_servo_angle_int);
 			}

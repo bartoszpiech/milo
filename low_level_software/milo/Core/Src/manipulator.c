@@ -4,26 +4,17 @@ void
 manipulator_init(manipulator_t *m) {
 	vector_init_d(&m->origin, 0, 0, 0);
 
-	m->q[0] = 0.0 * M_PI / 180;
-	m->q[1] = 45.0 * M_PI / 180;
-	m->q[2] = 45.0 * M_PI / 180;
+	m->q[0] = 0.0;
+	m->q[1] = 45.0;
+	m->q[2] = 45.0;
+	m->q[3] = 0.0;
 
 	m->len[0] = 40.0;
 	m->len[1] = 30.0;
 	m->total_len = m->len[0] + m->len[1];
 	m->error = 0.1;
 
-	vector_init_v(&m->j1[0], m->origin);
-	vector_init_d(&m->j1[1],
-				m->len[0] * cos(m->q[1]) * cos(m->q[0]),
-				m->len[0] * sin(m->q[1]),
-				m->len[0] * cos(m->q[1]) * sin(m->q[0]));
-	vector_init_v(&m->j2[0], m->j1[1]);
-	vector_init_d(&m->j2[1],
-				(m->len[0] * cos(m->q[1]) + m->len[1] * cos(m->q[1] - m->q[2])) * cos(m->q[0]),
-				m->len[0] * sin(m->q[1]) + m->len[1] * sin(m->q[1] - m->q[2]),
-				(m->len[0] * cos(m->q[1]) + m->len[1] * cos(m->q[1] - m->q[2])) * sin(m->q[0]));
-	vector_init_v(&m->effector, m->j2[1]);
+	manipulator_fk(m);
 
 	servo_init(&m->servo[0], htim15, TIM_CHANNEL_1, 0, 0, 1800, 500, 2500);
 	servo_init(&m->servo[1], htim16, TIM_CHANNEL_1, 0, 0, 1800, 500, 2500);
@@ -47,6 +38,22 @@ manipulator_print(manipulator_t m) {
 	printf("\nm.j2[1] =\t");
 	vector_print(m.j2[1]);
 	printf("\n}\n");
+}
+
+void
+manipulator_fk(manipulator_t *m) {
+	double qr[3] = { m->q[0] * M_PI / 180.0 , m->q[1] * M_PI / 180.0, m->q[2] * M_PI / 180.0 };
+	vector_init_v(&m->j1[0], m->origin);
+	vector_init_d(&m->j1[1],
+				m->len[0] * cos(qr[1]) * cos(qr[0]),
+				m->len[0] * sin(qr[1]),
+				m->len[0] * cos(qr[1]) * sin(qr[0]));
+	vector_init_v(&m->j2[0], m->j1[1]);
+	vector_init_d(&m->j2[1],
+				(m->len[0] * cos(qr[1]) + m->len[1] * cos(qr[1] - qr[2])) * cos(qr[0]),
+				m->len[0] * sin(qr[1]) + m->len[1] * sin(qr[1] - qr[2]),
+				(m->len[0] * cos(qr[1]) + m->len[1] * cos(qr[1] - qr[2])) * sin(qr[0]));
+	vector_init_v(&m->effector, m->j2[1]);
 }
 
 // function declaration
@@ -123,28 +130,29 @@ manipulator_calculate_angles(manipulator_t *m) {
 	vector_init_d(&x_axis, 1, 0, 0);
 	// move our tmp vector to origin
 	vector_sub(&y_tmp, y_tmp, m->j2[0]);
-	m->q[0] = vector_angle(x_tmp, x_axis);
-	m->q[1] = vector_angle(x_tmp, m->j1[1]);
-	m->q[2] = m->q[1] + vector_angle(x_tmp, y_tmp);
+	m->q[0] = vector_angle(x_tmp, x_axis) * 180.0 / M_PI;
+	m->q[1] = vector_angle(x_tmp, m->j1[1]) * 180.0 / M_PI;
+	m->q[2] = m->q[1] + (vector_angle(x_tmp, y_tmp) * 180.0 / M_PI);
 	//manipulator_print(*m);
 }
 
 void
 manipulator_update(manipulator_t *m) {
-	manipulator_backward(m, 5, m->effector.x, m->effector.y, m->effector.z);
-	manipulator_calculate_angles(m);
-	servo_set(&m->servo[0], (int)(m->q[0] * 180 / M_PI) * 10, 0);
-	servo_set(&m->servo[1], (int)(m->q[1] * 180 / M_PI)* 10, 0);
-	servo_set(&m->servo[2], (int)((180 - m->q[2] * 180 / M_PI)) * 10, 1); // TUTAJ 1 A NIE 0
+
+	servo_set(&m->servo[0], (int)(m->q[0] * 10), 0);
+	servo_set(&m->servo[1], (int)(m->q[1] * 10), 0);
+	servo_set(&m->servo[2], (int)((180 - m->q[2]) * 10), 1); // TUTAJ 1 A NIE 0
 }
 
 void
 manipulator_close(manipulator_t *m) {
+	m->q[3] = 180;
 	servo_set(&m->servo[3], 1800, 0);
 }
 
 void
 manipulator_open(manipulator_t *m) {
+	m->q[3] = 0;
 	servo_set(&m->servo[3], 0, 0);
 }
 

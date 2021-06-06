@@ -10,6 +10,7 @@
 
 #include "servo.h"
 #include "vector.h"
+#include "tim.h"
 
 typedef struct {
 	// redundant
@@ -19,12 +20,12 @@ typedef struct {
 	vector_t j1[2];
 	vector_t j2[2];
 
-	double q[3];
+	double q[4];
 	double len[2];
 	double total_len;
 	double error;
 
-	servo_t servo[3];
+	servo_t servo[4];
 } manipulator_t;
 
 void
@@ -33,6 +34,8 @@ manipulator_init(manipulator_t *m);
 void
 manipulator_print(manipulator_t m);
 
+void
+manipulator_fk(manipulator_t *m);
 void
 manipulator_backward(manipulator_t *m, int depth, double x, double y, double z);
 

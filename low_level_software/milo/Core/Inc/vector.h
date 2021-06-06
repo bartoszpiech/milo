@@ -9,6 +9,7 @@
 #define INC_VECTOR_H_
 
 #include <math.h>
+#include <stdio.h>
 
 typedef struct {
 	double x;
