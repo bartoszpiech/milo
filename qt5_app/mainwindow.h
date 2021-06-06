@@ -35,8 +35,8 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-//private slots:
-public slots:
+
+private slots:
     /*!
      * \brief Metoda szukająca urządzeń podłączonych do komputera
      */
@@ -60,8 +60,8 @@ public slots:
 	 * UART
      */
     void send_msg_to_device(QString message);
-//private:
-public:
+
+private:
     /*!
      * \brief Uchwyt na główne okno
      */
@@ -78,7 +78,7 @@ public:
     /*!
      * \brief Zmienna przechowująca kąt obrotu serwomechanizmu
      */
-    int servo_angle[3];
+    int servo_angle[4];
     /*!
      * \brief Wartość, jaka ma być dodana/odjęta od kątu obrotu serwomechanizmu
      *  podczas przyciśnięcia jednego z przycisków (h,y) - pierwszy serwomechanizm,
@@ -86,6 +86,19 @@ public:
 	 *  czwarty serwomechanizm.
      */
     const int keypress_diff = 1;
+    /*!
+     * \brief Uchwyt na wykres
+     */
+    QChart *chart;
+    /*!
+     * \brief Uchwyt na Widget wykresu
+     */
+    QChartView *chart_view;
+
+    QBarSet *set0;
+    QBarSet *set1;
+    QBarSet *set2;
+    QBarSet *set3;
     /*!
      * \brief keyPressEvent - Metoda przechwytująca naciśnięcie przycisku
 	 * na klawiaturze

@@ -56,6 +56,7 @@ public:
     QHBoxLayout *horizontalLayout;
     QTextEdit *textEdit_logs;
     QWidget *charts_page;
+    QGridLayout *gridLayout_3;
     QWidget *visualization_page;
     QGridLayout *gridLayout_2;
     Viewer *widget;
@@ -160,6 +161,8 @@ public:
         tabWidget->addTab(configuration_page, QString());
         charts_page = new QWidget();
         charts_page->setObjectName(QString::fromUtf8("charts_page"));
+        gridLayout_3 = new QGridLayout(charts_page);
+        gridLayout_3->setObjectName(QString::fromUtf8("gridLayout_3"));
         tabWidget->addTab(charts_page, QString());
         visualization_page = new QWidget();
         visualization_page->setObjectName(QString::fromUtf8("visualization_page"));
@@ -192,7 +195,7 @@ public:
         retranslateUi(MainWindow);
         QObject::connect(pushButton, SIGNAL(clicked()), MainWindow, SLOT(close()));
 
-        tabWidget->setCurrentIndex(0);
+        tabWidget->setCurrentIndex(2);
 
 
         QMetaObject::connectSlotsByName(MainWindow);

@@ -42,7 +42,6 @@ public:
 
 protected:
     virtual void draw();
-    //virtual void init();
     virtual void animate();
 
 private:

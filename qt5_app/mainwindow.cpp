@@ -8,6 +8,50 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     this->device = new QSerialPort(this);
+
+
+
+    set0 = new QBarSet("q0");
+    set1 = new QBarSet("q1");
+    set2 = new QBarSet("q2");
+    set3 = new QBarSet("q3");
+
+    *set0 << q0;
+    *set1 << q1;
+    *set2 << q2;
+    *set3 << q3;
+
+    QBarSeries *series = new QBarSeries();
+    series->append(set0);
+    series->append(set1);
+    series->append(set2);
+    series->append(set3);
+
+    //ui->charts_page->setLayout(new QGridLayout);
+    chart = new QChart();
+    chart_view = new QChartView(chart, ui->charts_page);
+    chart->addSeries(series);
+    chart->setTitle("Encoder measurement");
+    chart->setAnimationOptions(QChart::SeriesAnimations);
+
+    QStringList categories;
+    categories << "";
+    QBarCategoryAxis *axisX = new QBarCategoryAxis();
+    //QValueAxis *axisX = new QValueAxis();
+    axisX->setTitleText("Joint number");
+    axisX->append(categories);
+    chart->addAxis(axisX, Qt::AlignBottom);
+    series->attachAxis(axisX);
+
+    QValueAxis *axisY = new QValueAxis();
+    axisY->setTitleText("Angle [°]");
+    axisY->setRange(0,180);
+    chart->addAxis(axisY, Qt::AlignLeft);
+    series->attachAxis(axisY);
+
+    ui->charts_page->layout()->addWidget(chart_view);
+    chart_view->setChart(chart);
+
 }
 
 MainWindow::~MainWindow()
@@ -83,6 +127,7 @@ void MainWindow::read_from_port() {
             servo_angle[0] = line.split(";")[1].toInt();
             servo_angle[1] = line.split(";")[2].toInt();
             servo_angle[2] = line.split(";")[3].toInt();
+            servo_angle[3] = line.split(";")[4].toInt();
         }
         this->add_log(line);
     }
@@ -111,6 +156,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event) {
     } else if (event->key() == Qt::Key_Z) {
 		q0++;
         add_log("q0 = " + QString::number(q0));
+        set0->replace(0, q0);
     } else if (event->key() == Qt::Key_X) {
 		q1++;
         add_log("q1 = " + QString::number(q1));

@@ -69,7 +69,7 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="main_page">
        <attribute name="title">
@@ -172,6 +172,7 @@ p, li { white-space: pre-wrap; }
        <attribute name="title">
         <string>Charts</string>
        </attribute>
+       <layout class="QGridLayout" name="gridLayout_3"/>
       </widget>
       <widget class="QWidget" name="visualization_page">
        <attribute name="title">
