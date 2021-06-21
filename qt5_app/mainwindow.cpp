@@ -151,6 +151,8 @@ void MainWindow::keyPressEvent(QKeyEvent *event) {
         send_msg_to_device("c1;");
     } else if (event->key() == Qt::Key_2) {
         send_msg_to_device("c2;");
+    } else if (event->key() == Qt::Key_3) {
+        send_msg_to_device("c3;");
     } else if (event->key() == Qt::Key_A) {
         send_msg_to_device("a0;");
     } else if (event->key() == Qt::Key_Z) {
