@@ -158,9 +158,9 @@ void Viewer::draw() {
 
 	//float q1 = 0, q2 = 0, q3 = 0;
 
-	drawAxis();
-	glRotatef(90, 0.0, 1.0, 0.0);
-	glRotatef(-90, 1.0, 0.0, 0.0);
+    //drawAxis();
+    //glRotatef(90, 0.0, 1.0, 0.0);
+    //glRotatef(-90, 1.0, 0.0, 0.0);
 	/*
 	*/
     glScalef(0.5, 0.5, 0.5);

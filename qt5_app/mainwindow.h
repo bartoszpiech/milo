@@ -94,14 +94,21 @@ private:
      */
     const int keypress_diff = 1;
     /*!
-     * \brief Uchwyt na wykres
+     * \brief Uchwyt na wykres główny
      */
     QChart *chart;
     /*!
-     * \brief Uchwyt na Widget wykresu
+     * \brief Uchwyt na Widget wykresu głównego
      */
     QChartView *chart_view;
-
+    /*!
+     * \brief Uchwyt na wykres dla osi x,y,z
+     */
+    QChart *chart_xyz;
+    /*!
+     * \brief Uchwyt na Widget wykresu dla osi x,y,z
+     */
+    QChartView *chart_xyz_view;
 	/*!
 	 * \brief Uchwyt na słupek q0 wykresu słupkowego.
 	 */
@@ -118,6 +125,18 @@ private:
 	 * \brief Uchwyt na słupek q3 wykresu słupkowego.
 	 */
     QBarSet *set3;
+    /*!
+     * \brief Uchwyt na słupek dla współrzędnych x wykresu słupkowego.
+     */
+    QBarSet *set_x;
+    /*!
+     * \brief Uchwyt na słupek dla współrzędnych y wykresu słupkowego.
+     */
+    QBarSet *set_y;
+    /*!
+     * \brief Uchwyt na słupek dla współrzędnych z wykresu słupkowego.
+     */
+    QBarSet *set_z;
 	/*!
 	 * \brief Uchwyt na timer wysyłający wiadomość 'd;' do mikorokontrolera,
 	 * po której mikrokontroler wysyła odpowiedź zawierającą kąty obrotu

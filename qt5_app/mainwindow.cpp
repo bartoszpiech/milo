@@ -45,11 +45,11 @@ MainWindow::MainWindow(QWidget *parent)
 
     //ui->charts_page->setLayout(new QGridLayout);
     chart = new QChart();
-    chart_view = new QChartView(chart, ui->charts_page);
+    chart_view = new QChartView(chart, ui->visualization_page);
     chart->addSeries(series);
     chart->setTitle("Encoder measurement");
     chart->setAnimationOptions(QChart::SeriesAnimations);
-    chart_view->chart()->setTheme(QChart::ChartTheme::ChartThemeBrownSand);
+    //chart_view->chart()->setTheme(QChart::ChartTheme::ChartThemeBrownSand);
 
     QStringList categories;
     categories << "";
@@ -66,9 +66,54 @@ MainWindow::MainWindow(QWidget *parent)
     chart->addAxis(axisY, Qt::AlignLeft);
     series->attachAxis(axisY);
 
-    ui->charts_page->layout()->addWidget(chart_view);
+    ui->visualization_page->layout()->addWidget(chart_view);
     chart_view->setChart(chart);
 
+
+    set_x = new QBarSet("X");
+    set_y = new QBarSet("Y");
+    set_z = new QBarSet("Z");
+
+
+    this->effector[0] = 52;
+    this->effector[1] = 28;
+    this->effector[2] = 0;
+
+    *set_x << effector[0];
+    *set_y << effector[1];
+    *set_z << effector[2];
+    QBarSeries *series_xyz = new QBarSeries();
+    series_xyz->append(set_x);
+    series_xyz->append(set_y);
+    series_xyz->append(set_z);
+
+
+    chart_xyz = new QChart();
+    chart_xyz_view = new QChartView(chart, ui->visualization_page);
+    chart_xyz->addSeries(series_xyz);
+
+    chart_xyz->setTitle("Effector coordinates");
+    chart_xyz->setAnimationOptions(QChart::SeriesAnimations);
+    //chart_xyz_view->chart()->setTheme(QChart::ChartTheme::ChartThemeBrownSand);
+
+    QStringList categories_xyz;
+    categories_xyz << "";
+    QBarCategoryAxis *axisX_xyz = new QBarCategoryAxis();
+    //QValueAxis *axisX = new QValueAxis();
+    axisX_xyz->setTitleText("Coordinate");
+    axisX_xyz->append(categories_xyz);
+    chart_xyz->addAxis(axisX_xyz, Qt::AlignBottom);
+    series_xyz->attachAxis(axisX_xyz);
+
+    QValueAxis *axisY_xyz = new QValueAxis();
+    axisY_xyz->setTitleText("distance [cm]");
+    axisY_xyz->setRange(-70,70);
+    chart_xyz->addAxis(axisY_xyz, Qt::AlignLeft);
+    series_xyz->attachAxis(axisY_xyz);
+
+
+    ui->visualization_page->layout()->addWidget(chart_xyz_view);
+    chart_view->setChart(chart_xyz);
 }
 
 MainWindow::~MainWindow()
@@ -153,6 +198,9 @@ void MainWindow::read_from_port() {
 			set1->replace(0, servo_angle[1]);
 			set2->replace(0, servo_angle[2]);
 			set3->replace(0, servo_angle[3]);
+            set_x->replace(0, effector[0]);
+            set_y->replace(0, effector[1]);
+            set_z->replace(0, effector[2]);
         }
         this->add_log(line);
     }

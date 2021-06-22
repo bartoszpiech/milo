@@ -1,8 +1,7 @@
 var searchData=
 [
-  ['ui_471',['Ui',['../namespace_ui.html',1,'']]],
-  ['ui_472',['ui',['../class_main_window.html#a35466a70ed47252a0191168126a352a5',1,'MainWindow']]],
-  ['ui_5fmainwindow_473',['Ui_MainWindow',['../class_ui___main_window.html',1,'']]],
-  ['ui_5fmainwindow_2eh_474',['ui_mainwindow.h',['../ui__mainwindow_8h.html',1,'']]],
-  ['unix_475',['unix',['../moc__predefs_8h.html#a4e65214f450ef6326b96b52e6dd5714b',1,'moc_predefs.h']]]
+  ['tabwidget_475',['tabWidget',['../class_ui___main_window.html#a3260b943854b841c986f47c4726ee7f9',1,'Ui_MainWindow']]],
+  ['textedit_476',['textEdit',['../class_ui___main_window.html#a955cbbea2ef1a9929c3daf38b0a6dcd5',1,'Ui_MainWindow']]],
+  ['textedit_5flogs_477',['textEdit_logs',['../class_ui___main_window.html#afbe2922fe33107d15e4040070c3d9f58',1,'Ui_MainWindow']]],
+  ['timer_478',['timer',['../class_main_window.html#a356578805ed1248a7f2807434cb0e5ee',1,'MainWindow']]]
 ];

@@ -1,6 +1,9 @@
 var searchData=
 [
-  ['main_5fpage_544',['main_page',['../class_ui___main_window.html#a37fc542a996d7a3389a7055b1802b9a6',1,'Ui_MainWindow']]],
-  ['menubar_545',['menubar',['../class_ui___main_window.html#adf43d9a67adaec750aaa956b5e082f09',1,'Ui_MainWindow']]],
-  ['menucommunication_546',['menuCommunication',['../class_ui___main_window.html#ab80bc227571a462b17b40bd4b39b9b67',1,'Ui_MainWindow']]]
+  ['label_549',['label',['../class_ui___main_window.html#ad9c89133780f28e6efa2ec17ceb9cff5',1,'Ui_MainWindow']]],
+  ['label_5f2_550',['label_2',['../class_ui___main_window.html#a2e2516d755e4dd53fc905dabddf2738a',1,'Ui_MainWindow']]],
+  ['label_5f3_551',['label_3',['../class_ui___main_window.html#a0376fd90247280e7c7957cc70628708c',1,'Ui_MainWindow']]],
+  ['lineedit_5fx_552',['lineEdit_x',['../class_ui___main_window.html#ae11478ab190aa9a2984f95a4566fa777',1,'Ui_MainWindow']]],
+  ['lineedit_5fy_553',['lineEdit_y',['../class_ui___main_window.html#af5cf4811c5d1ed5622f5eab11266f13c',1,'Ui_MainWindow']]],
+  ['lineedit_5fz_554',['lineEdit_z',['../class_ui___main_window.html#aadcf2e79f2325df0ecfa86b110ed9b5f',1,'Ui_MainWindow']]]
 ];
