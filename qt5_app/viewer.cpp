@@ -1,7 +1,7 @@
 #include "viewer.h"
 #include "mainwindow.h"
 
-float q0, q1, q2, q3;
+int *q0, *q1, *q2, *q3;
 
 using namespace std;
 
@@ -21,6 +21,7 @@ void draw_link(GLfloat size_x, GLfloat size_y, GLfloat size_z,
     glPushMatrix();
     glScalef(size_x, size_y, size_z);
 
+	glNormal3f(0.0f, 0.0f, 1.0f);
     glBegin(GL_POLYGON);
     glColor3f(r, g, b);    glVertex3f(0.5, -0.5, -0.5);
     glColor3f(r, g, b);    glVertex3f(0.5, 0.5, -0.5);
@@ -29,6 +30,7 @@ void draw_link(GLfloat size_x, GLfloat size_y, GLfloat size_z,
     glEnd();
 
 
+	glNormal3f(0.0f, 0.0f, -1.0f);
     glBegin(GL_POLYGON);
     glColor3f(r, g, b);
     glVertex3f(0.5, -0.5, 0.5);
@@ -38,6 +40,7 @@ void draw_link(GLfloat size_x, GLfloat size_y, GLfloat size_z,
     glEnd();
 
     // right
+	glNormal3f(1.0f, 0.0f, 0.0f);
     glBegin(GL_POLYGON);
     glColor3f(r, g, b);
     glVertex3f(0.5, -0.5, -0.5);
@@ -47,6 +50,7 @@ void draw_link(GLfloat size_x, GLfloat size_y, GLfloat size_z,
     glEnd();
 
     // left
+	glNormal3f(-1.0f, 0.0f, 0.0f);
     glBegin(GL_POLYGON);
     glColor3f(r, g, b);
     glVertex3f(-0.5, -0.5, 0.5);
@@ -56,6 +60,7 @@ void draw_link(GLfloat size_x, GLfloat size_y, GLfloat size_z,
     glEnd();
 
     // top
+	glNormal3f(0.0f, 1.0f, 0.0f);
     glBegin(GL_POLYGON);
     glColor3f(r, g, b);
     glVertex3f(0.5,  0.5, 0.5);  //setGridIsDrawn();
@@ -66,6 +71,7 @@ void draw_link(GLfloat size_x, GLfloat size_y, GLfloat size_z,
     glEnd();
 
     // bottom
+	glNormal3f(0.0f, -1.0f, 0.0f);
     glBegin(GL_POLYGON);
     glColor3f(r, g, b);
     glVertex3f(0.5, -0.5, -0.5);
@@ -139,7 +145,8 @@ void draw_link(GLfloat size_x, GLfloat size_y, GLfloat size_z,
 */
 
 void Viewer::draw() {
-    drawAxis();
+
+    //drawAxis();
 	/*
 	float link_0_x = 1.0, link_0_y = 0.5, link_0_z = 1.0;
 	float link_1_x = 0.2, link_1_y = 0.2, link_1_z = 1.0;
@@ -151,6 +158,11 @@ void Viewer::draw() {
 
 	//float q1 = 0, q2 = 0, q3 = 0;
 
+	drawAxis();
+	glRotatef(90, 0.0, 1.0, 0.0);
+	glRotatef(-90, 1.0, 0.0, 0.0);
+	/*
+	*/
     glScalef(0.5, 0.5, 0.5);
 
 	/*
@@ -161,18 +173,18 @@ void Viewer::draw() {
     glColor3f(0.1, 0.1, 0.1);    glVertex3f(-5, 0, -5);
     glEnd();
 	*/
-    glRotatef(q1, 0.0, 0, 1.0);
-    glRotatef(q0, 1.0, 0.0, 0.0);
+    glRotatef((float)*q0, 0.0, 0, 1.0);
+    glRotatef((float)*q1, 1.0, 0.0, 0.0);
     glTranslatef(0.0, 0.0, link_0_z / 2);
     draw_link(link_0_x, link_0_y, link_0_z, 0.8, 0.0, 0.0);
 
     glTranslatef(0.0, 0.0, link_0_z / 2);
-    glRotatef(q2, 1.0, 0.0, 0.0);
+    glRotatef((float)*q2, 1.0, 0.0, 0.0);
     glTranslatef(0.0, 0.0, link_1_z / 2);
     draw_link(link_1_x, link_1_y, link_1_z, 0.0, 0.8, 0.0);
 
     glTranslatef(0.0, 0.0, link_1_z / 2);
-    glRotatef(q3, 0.0, 0.0, 1.0);
+    glRotatef((float)*q3, 0.0, 0.0, 1.0);
     glTranslatef(0.0, 0.0, link_2_z / 2);
     draw_link(link_2_x, link_2_y, link_2_z, 0.0, 0.0, 0.8);
 	/*
@@ -204,8 +216,25 @@ void Viewer::init() {
   // Restore previous viewer state.
   restoreStateFromFile();
 
-  GLfloat light[] = { 1.0, 1.0, 1.0, 0.0 };
-  glLightfv(GL_LIGHT0, GL_POSITION, light);
+   GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
+   GLfloat mat_shininess[] = { 50.0 };
+   GLfloat light_position[] = { 10.0, 10.0, 10.0, 0.0 };
+   glClearColor (0.0, 0.0, 0.0, 0.0);
+   glShadeModel (GL_SMOOTH);
+
+   glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+   glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
+   glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+
+   glEnable(GL_LIGHTING);
+   glEnable(GL_LIGHT0);
+   glEnable(GL_DEPTH_TEST);
+
+
+
+
+  //GLfloat light[] = { 10.0, 1.0, 1.0, 0.0 };
+  //glLightfv(GL_LIGHT0, GL_POSITION, light);
 
   /*
   setSceneRadius(3);

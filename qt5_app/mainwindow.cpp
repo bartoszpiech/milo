@@ -9,6 +9,22 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     this->device = new QSerialPort(this);
 
+	this->servo_angle[0] = 0;
+	this->servo_angle[1] = 45;
+	this->servo_angle[2] = 45;
+	this->servo_angle[3] = 0;
+
+	q0 = &servo_angle[0];
+	q1 = &servo_angle[1];
+	q2 = &servo_angle[2];
+	q3 = &servo_angle[3];
+
+	timer = new QTimer();
+	//timer->setInterval(200);
+	timer->setInterval(500);
+	connect(timer, &QTimer::timeout, this, [=](){
+	send_msg_to_device("d;");
+	});
 
 
     set0 = new QBarSet("q0");
@@ -16,10 +32,10 @@ MainWindow::MainWindow(QWidget *parent)
     set2 = new QBarSet("q2");
     set3 = new QBarSet("q3");
 
-    *set0 << q0;
-    *set1 << q1;
-    *set2 << q2;
-    *set3 << q3;
+    *set0 << servo_angle[0];
+    *set1 << servo_angle[1];
+    *set2 << servo_angle[2];
+    *set3 << servo_angle[3];
 
     QBarSeries *series = new QBarSeries();
     series->append(set0);
@@ -33,6 +49,7 @@ MainWindow::MainWindow(QWidget *parent)
     chart->addSeries(series);
     chart->setTitle("Encoder measurement");
     chart->setAnimationOptions(QChart::SeriesAnimations);
+    chart_view->chart()->setTheme(QChart::ChartTheme::ChartThemeBrownSand);
 
     QStringList categories;
     categories << "";
@@ -89,14 +106,14 @@ void MainWindow::on_pushButton_connect_clicked()
     this->device->setPortName(port_name);
     if (!this->device->isOpen()) { // tu forbot bug
         if(this->device->open(QSerialPort::ReadWrite)) { // tu tez
-            this->device->setBaudRate(QSerialPort::Baud38400);
+            this->device->setBaudRate(QSerialPort::Baud115200);
             this->device->setDataBits(QSerialPort::Data8);
             this->device->setParity(QSerialPort::NoParity);
             this->device->setStopBits(QSerialPort::OneStop);
             this->device->setFlowControl(QSerialPort::NoFlowControl);
             this->add_log("Port " + port_name + " opened.");
             connect(this->device, SIGNAL(readyRead()), this, SLOT(read_from_port()));
-            send_msg_to_device("d;");
+			timer->start();
         } else {
             this->add_log("Port " + port_name + " could not be opened!");
         }
@@ -110,6 +127,7 @@ void MainWindow::on_pushButton_disconnect_clicked()
     if (this->device->isOpen()) {
         this->add_log("Port " + this->device->portName() + " closed");
         this->device->close();
+		timer->stop();
     } else {
         this->add_log("No Port to close");
     }
@@ -119,15 +137,22 @@ void MainWindow::read_from_port() {
         QString line = this->device->readLine();
         if(line[0] == 'a') {
             int index = line[1].unicode() - 48;
-            qDebug() << index;
+            //qDebug() << index;
             servo_angle[index] = line.split(" ")[1].split(";")[0].toInt();
-            qDebug() << line.split(" ")[1].split(";")[0];
+            //qDebug() << line.split(" ")[1].split(";")[0];
         } else if (line[0] == 'd') {
             qDebug() << line.split(";");
             servo_angle[0] = line.split(";")[1].toInt();
             servo_angle[1] = line.split(";")[2].toInt();
             servo_angle[2] = line.split(";")[3].toInt();
             servo_angle[3] = line.split(";")[4].toInt();
+            effector[0] = line.split(";")[5].toInt();
+            effector[1] = line.split(";")[6].toInt();
+            effector[2] = line.split(";")[7].toInt();
+			set0->replace(0, servo_angle[0]);
+			set1->replace(0, servo_angle[1]);
+			set2->replace(0, servo_angle[2]);
+			set3->replace(0, servo_angle[3]);
         }
         this->add_log(line);
     }
@@ -156,47 +181,66 @@ void MainWindow::keyPressEvent(QKeyEvent *event) {
     } else if (event->key() == Qt::Key_A) {
         send_msg_to_device("a0;");
     } else if (event->key() == Qt::Key_Z) {
-		q0++;
-        add_log("q0 = " + QString::number(q0));
-        set0->replace(0, q0);
+		servo_angle[0]++;
+        add_log("a0 = " + QString::number(servo_angle[0]));
+        set0->replace(0, servo_angle[0]);
     } else if (event->key() == Qt::Key_X) {
 		q1++;
-        add_log("q1 = " + QString::number(q1));
+        add_log("q1 = " + QString::number(*q1));
     } else if (event->key() == Qt::Key_N) {
 		q2++;
-        add_log("q2 = " + QString::number(q2));
+        add_log("q2 = " + QString::number(*q2));
     } else if (event->key() == Qt::Key_V) {
 		q3++;
-        add_log("q3 = " + QString::number(q3));
+        add_log("q3 = " + QString::number(*q3));
     } else if (event->key() == Qt::Key_H) {
-        send_msg_to_device("a0;");
+        //send_msg_to_device("a0;");
         this->servo_angle[0] = this->servo_angle[0] - keypress_diff;
         send_msg_to_device("s0 " + QString::number(servo_angle[0]) + ";");
         add_log("servo_angle[0] = " + QString::number(servo_angle[0]));
+        set0->replace(0, servo_angle[0]);
     } else if (event->key() == Qt::Key_Y) {
-        send_msg_to_device("a0;");
+        //send_msg_to_device("a0;");
         this->servo_angle[0] = this->servo_angle[0] + keypress_diff;
         send_msg_to_device("s0 " + QString::number(servo_angle[0]) + ";");
         add_log("servo_angle[0] = " + QString::number(servo_angle[0]));
+        set0->replace(0, servo_angle[0]);
     } else if (event->key() == Qt::Key_J) {
-        send_msg_to_device("a1;");
+        //send_msg_to_device("a1;");
         this->servo_angle[1] = this->servo_angle[1] - keypress_diff;
         send_msg_to_device("s1 " + QString::number(servo_angle[1]) + ";");
         add_log("servo_angle[1] = " + QString::number(servo_angle[1]));
+        set1->replace(0, servo_angle[1]);
     } else if (event->key() == Qt::Key_U) {
-        send_msg_to_device("a1;");
+        //send_msg_to_device("a1;");
         this->servo_angle[1] = this->servo_angle[1] + keypress_diff;
         send_msg_to_device("s1 " + QString::number(servo_angle[1]) + ";");
         add_log("servo_angle[1] = " + QString::number(servo_angle[1]));
+        set1->replace(0, servo_angle[1]);
     } else if (event->key() == Qt::Key_K) {
-        send_msg_to_device("a2;");
+        //send_msg_to_device("a2;");
         this->servo_angle[2] = this->servo_angle[2] - keypress_diff;
         send_msg_to_device("s2 " + QString::number(servo_angle[2]) + ";");
         add_log("servo_angle[2] = " + QString::number(servo_angle[2]));
+        set2->replace(0, servo_angle[2]);
     } else if (event->key() == Qt::Key_I) {
-        send_msg_to_device("a2;");
+        //send_msg_to_device("a2;");
         this->servo_angle[2] = this->servo_angle[2] + keypress_diff;
         send_msg_to_device("s2 " + QString::number(servo_angle[2]) + ";");
         add_log("servo_angle[2] = " + QString::number(servo_angle[2]));
+        set2->replace(0, servo_angle[2]);
     }
 }
+
+void MainWindow::on_pushButton_send_ik_clicked()
+{
+    int x, y, z;
+    QString x_str = ui->lineEdit_x->text();
+    x = x_str.toInt();
+    QString y_str = ui->lineEdit_y->text();
+    y = y_str.toInt();
+    QString z_str = ui->lineEdit_z->text();
+    z = z_str.toInt();
+    send_msg_to_device("q;" + QString::number(x) + ";" + QString::number(y) + ";" + QString::number(z) + ";");
+}
+

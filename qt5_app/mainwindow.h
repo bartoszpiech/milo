@@ -19,7 +19,7 @@
  * \brief Zmienne tymczasowo przechowujące informacje o kącie obrotu
  * poszczególnych przegubów obrotowych
  */
-extern float q0, q1, q2, q3;
+extern int *q0, *q1, *q2, *q3;
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -61,6 +61,8 @@ private slots:
      */
     void send_msg_to_device(QString message);
 
+    void on_pushButton_send_ik_clicked();
+
 private:
     /*!
      * \brief Uchwyt na główne okno
@@ -79,6 +81,11 @@ private:
      * \brief Zmienna przechowująca kąt obrotu serwomechanizmu
      */
     int servo_angle[4];
+	/*!
+	 * \brief Współrzędne efektora (końcówki manipulatora) przesyłane przez
+	 * mikrokontroler, na którym są liczone.
+	 */
+	int effector[3];
     /*!
      * \brief Wartość, jaka ma być dodana/odjęta od kątu obrotu serwomechanizmu
      *  podczas przyciśnięcia jednego z przycisków (h,y) - pierwszy serwomechanizm,
@@ -95,10 +102,30 @@ private:
      */
     QChartView *chart_view;
 
+	/*!
+	 * \brief Uchwyt na słupek q0 wykresu słupkowego.
+	 */
     QBarSet *set0;
+	/*!
+	 * \brief Uchwyt na słupek q1 wykresu słupkowego.
+	 */
     QBarSet *set1;
+	/*!
+	 * \brief Uchwyt na słupek q2 wykresu słupkowego.
+	 */
     QBarSet *set2;
+	/*!
+	 * \brief Uchwyt na słupek q3 wykresu słupkowego.
+	 */
     QBarSet *set3;
+	/*!
+	 * \brief Uchwyt na timer wysyłający wiadomość 'd;' do mikorokontrolera,
+	 * po której mikrokontroler wysyła odpowiedź zawierającą kąty obrotu
+	 * wszystkich serwomechanizmów. Częstotliwość wysyłania wiadomości jest
+	 * ustawiona na 10Hz, gdy zmienimy ją na większą, wyświetlanie manipulatora
+	 * oraz wykresów będzie bardziej płynne
+	 */
+	QTimer *timer;
     /*!
      * \brief keyPressEvent - Metoda przechwytująca naciśnięcie przycisku
 	 * na klawiaturze

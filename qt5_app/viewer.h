@@ -35,17 +35,47 @@ protected:
 	virtual void animate();
 };
 
+/*!
+ * \brief Klasa MainPageViewer, zawiera metody do rysowania w okienku VGLViewer przy
+ * użyciu OpenGL'a, wyświetla animacje w okienku głównym
+ */
 class MainPageViewer : public Viewer {
 public:
+	/*!
+	 * \brief Konstruktor klasy MainPageViewer.
+	 * \param parent - tzw. "rodzic" okienka
+	 */
     MainPageViewer(QWidget* parent = nullptr);
 
 
 protected:
+	/*!
+	 * \brief Metoda wirtualna odpowiadająca za rysowanie obiektu
+	 */
     virtual void draw();
+	/*!
+	 * \brief Metoda wirtualna odpowiedzialna za animację obiektu na ekranie
+	 * głównym
+	 */
     virtual void animate();
 
 private:
-    float q0 = 0, q1 = 0, q2 = 0, q3 = 0;
+	/*!
+	 * \brief kąt obrotu q0
+	 */
+    float q0 = 0;
+	/*!
+	 * \brief kąt obrotu q1
+	 */
+	float q1 = 0;
+	/*!
+	 * \brief kąt obrotu q2
+	 */
+	float q2 = 0;
+	/*!
+	 * \brief kąt obrotu q3
+	 */
+	float q3 = 0;
 };
 
 #endif // VIEWER_H

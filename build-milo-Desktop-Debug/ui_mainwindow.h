@@ -17,6 +17,8 @@
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QGroupBox>
 #include <QtWidgets/QHBoxLayout>
+#include <QtWidgets/QLabel>
+#include <QtWidgets/QLineEdit>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
@@ -60,6 +62,15 @@ public:
     QWidget *visualization_page;
     QGridLayout *gridLayout_2;
     Viewer *widget;
+    QGroupBox *groupBox_3;
+    QHBoxLayout *horizontalLayout_2;
+    QLabel *label;
+    QLineEdit *lineEdit_x;
+    QLabel *label_2;
+    QLineEdit *lineEdit_y;
+    QLabel *label_3;
+    QLineEdit *lineEdit_z;
+    QPushButton *pushButton_send_ik;
     QMenuBar *menubar;
     QMenu *menuCommunication;
     QStatusBar *statusbar;
@@ -173,6 +184,49 @@ public:
 
         gridLayout_2->addWidget(widget, 0, 0, 1, 1);
 
+        groupBox_3 = new QGroupBox(visualization_page);
+        groupBox_3->setObjectName(QString::fromUtf8("groupBox_3"));
+        groupBox_3->setMaximumSize(QSize(2000, 80));
+        horizontalLayout_2 = new QHBoxLayout(groupBox_3);
+        horizontalLayout_2->setObjectName(QString::fromUtf8("horizontalLayout_2"));
+        label = new QLabel(groupBox_3);
+        label->setObjectName(QString::fromUtf8("label"));
+
+        horizontalLayout_2->addWidget(label);
+
+        lineEdit_x = new QLineEdit(groupBox_3);
+        lineEdit_x->setObjectName(QString::fromUtf8("lineEdit_x"));
+
+        horizontalLayout_2->addWidget(lineEdit_x);
+
+        label_2 = new QLabel(groupBox_3);
+        label_2->setObjectName(QString::fromUtf8("label_2"));
+
+        horizontalLayout_2->addWidget(label_2);
+
+        lineEdit_y = new QLineEdit(groupBox_3);
+        lineEdit_y->setObjectName(QString::fromUtf8("lineEdit_y"));
+
+        horizontalLayout_2->addWidget(lineEdit_y);
+
+        label_3 = new QLabel(groupBox_3);
+        label_3->setObjectName(QString::fromUtf8("label_3"));
+
+        horizontalLayout_2->addWidget(label_3);
+
+        lineEdit_z = new QLineEdit(groupBox_3);
+        lineEdit_z->setObjectName(QString::fromUtf8("lineEdit_z"));
+
+        horizontalLayout_2->addWidget(lineEdit_z);
+
+        pushButton_send_ik = new QPushButton(groupBox_3);
+        pushButton_send_ik->setObjectName(QString::fromUtf8("pushButton_send_ik"));
+
+        horizontalLayout_2->addWidget(pushButton_send_ik);
+
+
+        gridLayout_2->addWidget(groupBox_3, 1, 0, 1, 1);
+
         tabWidget->addTab(visualization_page, QString());
 
         gridLayout->addWidget(tabWidget, 0, 0, 1, 3);
@@ -195,7 +249,7 @@ public:
         retranslateUi(MainWindow);
         QObject::connect(pushButton, SIGNAL(clicked()), MainWindow, SLOT(close()));
 
-        tabWidget->setCurrentIndex(2);
+        tabWidget->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -209,7 +263,7 @@ public:
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
-"<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:36pt;\">&quot;MiLo&quot; robot arm visualisation</span></p></body></html>", nullptr));
+"<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:36pt;\">&quot;MiLo&quot; robot arm visualization</span></p></body></html>", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(main_page), QCoreApplication::translate("MainWindow", "Main Page", nullptr));
         groupBox->setTitle(QCoreApplication::translate("MainWindow", "Connection", nullptr));
         pushButton_search->setText(QCoreApplication::translate("MainWindow", "Search", nullptr));
@@ -218,6 +272,13 @@ public:
         groupBox_2->setTitle(QCoreApplication::translate("MainWindow", "UART", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(configuration_page), QCoreApplication::translate("MainWindow", "Configuration", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(charts_page), QCoreApplication::translate("MainWindow", "Charts", nullptr));
+        groupBox_3->setTitle(QCoreApplication::translate("MainWindow", "Inverse knematics", nullptr));
+        label->setText(QCoreApplication::translate("MainWindow", "X:", nullptr));
+        lineEdit_x->setText(QString());
+        label_2->setText(QCoreApplication::translate("MainWindow", "Y:", nullptr));
+        lineEdit_y->setText(QString());
+        label_3->setText(QCoreApplication::translate("MainWindow", "Z:", nullptr));
+        pushButton_send_ik->setText(QCoreApplication::translate("MainWindow", "Send", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(visualization_page), QCoreApplication::translate("MainWindow", "Visualization", nullptr));
         menuCommunication->setTitle(QCoreApplication::translate("MainWindow", "Communication", nullptr));
     } // retranslateUi
